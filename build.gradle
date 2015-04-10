@@ -60,6 +60,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile files("lib/absGDX-framework-1.0.jar")
     }
 }
 

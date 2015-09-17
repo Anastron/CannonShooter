@@ -1,5 +1,9 @@
 package de.samdev.cannonshooter.entities;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
@@ -8,6 +12,8 @@ import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
 
 public class CannonHearth extends Entity {
+	private static final Color COLOR_NEUTRAL = new Color(0.75f, 0.75f, 0.75f, 1f);
+	
 	private float rotation = 0;
 	
 	public CannonHearth(Cannon owner) {
@@ -16,6 +22,19 @@ public class CannonHearth extends Entity {
 		setPosition(owner.getPositionX(), owner.getPositionY());
 		
 		setZLayer(ZLayers.LAYER_CANNON_HEARTH);
+	}
+
+	@Override
+	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
+		sbatch.setColor(COLOR_NEUTRAL);
+
+		renderTexture(sbatch, Textures.cannon_hearth[63], 0, 0);
+
+		sbatch.setColor(Color.RED);
+		
+		renderTexture(sbatch, Textures.cannon_hearth[(int)(rotation/4f) % 64], 0, 0);
+
+		sbatch.setColor(Color.WHITE);
 	}
 
 	@Override
@@ -54,12 +73,12 @@ public class CannonHearth extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		rotation = (rotation + 360 - delta / 8) % 360;
+		rotation = (rotation + 360 + delta / 8) % 360;
 	}
 	
 	@Override
 	public float getTextureRotation() {
-		return rotation;
+		return 0;//rotation;
 	}
 
 	@Override

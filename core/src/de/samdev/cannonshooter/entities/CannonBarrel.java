@@ -1,5 +1,9 @@
 package de.samdev.cannonshooter.entities;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
@@ -10,7 +14,6 @@ import de.samdev.cannonshooter.ZLayers;
 public class CannonBarrel extends Entity {
 	private static final float ANIMATION_DURATION = 1000;
 	
-	
 	private float rotation = 0;
 	
 	public CannonBarrel(Cannon owner) {
@@ -20,7 +23,7 @@ public class CannonBarrel extends Entity {
 		
 		setZLayer(ZLayers.LAYER_CANNON_BARREL);
 	}
-
+	
 	@Override
 	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
 		// TODO Auto-generated method stub

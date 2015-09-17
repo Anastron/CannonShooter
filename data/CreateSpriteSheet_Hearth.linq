@@ -11,8 +11,8 @@ void Main()
 	
 	Image output = new Bitmap(input.Width * 8, input.Height * 8, PixelFormat.Format32bppArgb);
 
-	var b1 = new SolidBrush(Color.Black);
-	var b2 = new SolidBrush(Color.Magenta);
+	var b1 = new SolidBrush(Color.Transparent);
+	var b2 = new SolidBrush(Color.White);
 
 	using (Graphics g = Graphics.FromImage(output))
 	{
@@ -20,7 +20,7 @@ void Main()
 		{
 			for (int y = 0; y < 8; y++)
 			{
-				var rad = ((y*8 + x) / 64.0) * 2 * Math.PI;
+				var rad = ((y*8 + x) / 63.0) * 2 * Math.PI;
 
 				for (int ix = 0; ix < input.Width; ix++)
 				{
@@ -31,7 +31,7 @@ void Main()
 
 						if (input.GetPixel(ix, iy).A > 0)
 						{
-							if (GetAngle(new Vector2(ix - input.Width / 2f, iy - input.Height / 2f)) < rad)
+							if (GetAngle(new Vector2(ix - input.Width / 2f, iy - input.Height / 2f)) >= rad)
 							{
 								g.FillRectangle(b1, dx, dy, 1, 1);
 							}

@@ -1,5 +1,9 @@
 package de.samdev.cannonshooter.level;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.AgdxGame;
@@ -9,19 +13,43 @@ import de.samdev.absgdx.framework.map.background.RepeatingBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.entities.Cannon;
+import de.samdev.cannonshooter.teams.Team;
 
 public class StandardLevel extends GameLayer {
 
+	private List<Team> teams = new ArrayList<Team>();
+	
+	public Team team_neutral = Team.GenerateTeamNeutral();
+	public Team team_player = Team.GenerateTeamPlayer();
+
+	private Team team_computer1 = new Team(10, Team.COL_P2, false, true, false, Team.MULTIPLIER_AI_D0);
+	private Team team_computer2 = new Team(11, Team.COL_P3, false, true, false, Team.MULTIPLIER_AI_D0);
+	private Team team_computer3 = new Team(12, Team.COL_P4, false, true, false, Team.MULTIPLIER_AI_D0);
+	
 	public StandardLevel(AgdxGame owner) {
 		super(owner, TileMap.createEmptyMap(32, 20));
 		
-		addBackground(new RepeatingBackground(Textures.texbackground, 1/32f));
+		initTeams();
+		
+		initMap();
+	}
 
+	private void initMap() {
+		addBackground(new RepeatingBackground(Textures.texbackground, 1/32f));
 		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 
-		addEntity(new Cannon(7, 13));
-		addEntity(new Cannon(14, 5));
-		addEntity(new Cannon(20, 13));
+		addEntity(new Cannon(7, 13, team_player));
+		addEntity(new Cannon(14, 5, team_computer1));
+		addEntity(new Cannon(20, 13, team_neutral));
+	}
+
+	private void initTeams() {
+		teams.add(team_neutral);
+		teams.add(team_player);
+
+		teams.add(team_computer1);
+		teams.add(team_computer2);
+		teams.add(team_computer3);
 	}
 	
 	@Override

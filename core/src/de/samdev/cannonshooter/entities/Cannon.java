@@ -9,20 +9,24 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
+import de.samdev.cannonshooter.teams.Team;
 
 public class Cannon extends Entity {
-
+	public Team team;
+	
 	private CannonBarrel barrel;
 	private CannonHearth hearth;
 	
-	public float power = 1f; // 1 = active | 0 = neutral
+	public float power; // 1 = active | 0 = neutral
 	
-	public Cannon(float x, float y) {
+	public Cannon(float x, float y, Team t) {
 		super(Textures.cannon_body, 2, 2);
 		
 		setPosition(x, y);
-
 		setZLayer(ZLayers.LAYER_CANNON_BODY);
+		
+		team = t;
+		power = (t.isNeutral) ? 0 : 1;
 	}
 
 	@Override
@@ -38,12 +42,12 @@ public class Cannon extends Entity {
 	public void beforeUpdate(float delta) {
 		if (owner.owner.settings.debugEnabled.get())
 		{
-			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN))
+			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN) && ! team.isNeutral)
 			{
 				power = Math.max(0, power - 0.01f);
 			}
 			
-			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP))
+			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP) && ! team.isNeutral)
 			{
 				power = Math.min(1, power + 0.01f);
 			}
@@ -53,6 +57,10 @@ public class Cannon extends Entity {
 		{
 			barrel.startDrag();
 		}
+	}
+
+	public void setTeam(Team newteam) {
+		team = newteam;
 	}
 
 	@Override

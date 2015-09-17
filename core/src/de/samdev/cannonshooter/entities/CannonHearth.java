@@ -10,14 +10,16 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
+import de.samdev.cannonshooter.level.StandardLevel;
 
 public class CannonHearth extends Entity {
-	private static final Color COLOR_NEUTRAL = new Color(0.75f, 0.75f, 0.75f, 1f);
+	private static final Color COLOR_HEARTLESS = new Color(0.75f, 0.75f, 0.75f, 1f);
 	private static final float ROTATION_SPEED = 0.125f;
 	
 	private float rotation = 0;
 	
 	private Cannon cannon;
+	private StandardLevel level;
 	
 	public CannonHearth(Cannon owner) {
 		super(Textures.cannon_hearth[0], 2, 2);
@@ -30,11 +32,11 @@ public class CannonHearth extends Entity {
 
 	@Override
 	public void render(SpriteBatch sbatch, ShapeRenderer srenderer) {
-		sbatch.setColor(COLOR_NEUTRAL);
+		sbatch.setColor(COLOR_HEARTLESS);
 
 		renderTexture(sbatch, Textures.cannon_hearth[63], 0, 0);
 
-		sbatch.setColor(Color.RED);
+		sbatch.setColor(cannon.team.teamColor);
 		
 		renderTexture(sbatch, Textures.cannon_hearth[(int)(cannon.power * 63)], 0, 0);
 
@@ -43,17 +45,20 @@ public class CannonHearth extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		if (cannon.power < 1)
-		{
-			if (rotation != 0)
-			{
-				rotation = (rotation - delta * ROTATION_SPEED);
+		if (cannon.power < 1) {
+			if (rotation != 0 && cannon.power > 0) {
+				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
 				if (rotation < 0) rotation = 0;
 			}
-		}
-		else
-		{
-			rotation = (rotation - delta * ROTATION_SPEED);
+
+			if (cannon.power == 0){
+				if (! cannon.team.isNeutral) cannon.setTeam(level.team_neutral);
+
+				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
+				if (rotation < 0) rotation += 45;
+			}
+		} else {
+			rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
 			if (rotation < 0) rotation += 45;
 		}
 	}
@@ -65,7 +70,7 @@ public class CannonHearth extends Entity {
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		//
+		level = (StandardLevel) layer;
 	}
 
 	@Override

@@ -18,7 +18,8 @@ public class CannonGame extends AgdxGame  {
 		setDebugFont(new BitmapFont(Gdx.files.internal("consolefont.fnt")));
 		
 		settings.debugVisualMenu.set(false);
-		settings.debugMenuLayerTextInfos.set(false);
+		settings.debugMenuLayerTextInfos.set(true);
+		settings.debugGameLayerMenuTextInfos.set(false);
 		settings.debugEnabled.set(true);
 	}
 

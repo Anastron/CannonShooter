@@ -7,23 +7,16 @@ import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
 
-public class Cannon extends Entity {
+public class CannonBarrel extends Entity {
 
-	private CannonBarrel barrel;
+	private float rotation = 0;
 	
-	public Cannon(float x, float y) {
-		super(Textures.cannon_body, 2, 2);
+	public CannonBarrel(Cannon owner) {
+		super(Textures.cannon_barrel, 4, 2);
 		
-		setPosition(x, y);
-
-		setZLayer(ZLayers.LAYER_CANNON_BODY);
-	}
-
-	@Override
-	public void onLayerAdd(GameLayer layer) {
-		barrel = new CannonBarrel(this);
+		setPosition(owner.getPositionX() - 1, owner.getPositionY());
 		
-		layer.addEntity(barrel);
+		setZLayer(ZLayers.LAYER_CANNON_BARREL);
 	}
 
 	@Override
@@ -62,6 +55,17 @@ public class Cannon extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
+		rotation += 1;
+		rotation = (rotation + 1) % 360;
+	}
+	
+	@Override
+	public float getTextureRotation() {
+		return rotation;
+	}
+
+	@Override
+	public void onLayerAdd(GameLayer layer) {
 		// TODO Auto-generated method stub
 
 	}

@@ -8,11 +8,13 @@ import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
 
 public class CannonBarrel extends Entity {
-
+	private static final float ANIMATION_DURATION = 2000;
+	
+	
 	private float rotation = 0;
 	
 	public CannonBarrel(Cannon owner) {
-		super(Textures.cannon_barrel, 4, 2);
+		super(Textures.cannon_barrel, ANIMATION_DURATION, 4, 2);
 		
 		setPosition(owner.getPositionX() - 1, owner.getPositionY());
 		
@@ -61,7 +63,7 @@ public class CannonBarrel extends Entity {
 	
 	@Override
 	public float getTextureRotation() {
-		return rotation;
+		return 0;
 	}
 
 	@Override

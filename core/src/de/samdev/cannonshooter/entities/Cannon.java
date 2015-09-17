@@ -1,7 +1,7 @@
 package de.samdev.cannonshooter.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
 
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
@@ -36,39 +36,43 @@ public class Cannon extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		if (isMouseOverEntity() && Gdx.input.justTouched() && Gdx.input.isButtonPressed(Buttons.LEFT) && power > 0)
+		if (owner.owner.settings.debugEnabled.get())
 		{
-			power -= 0.1;
+			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN))
+			{
+				power = Math.max(0, power - 0.01f);
+			}
+			
+			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP))
+			{
+				power = Math.min(1, power + 0.01f);
+			}
 		}
 		
-		if (isMouseOverEntity() && Gdx.input.justTouched() && Gdx.input.isButtonPressed(Buttons.RIGHT) && power < 1)
+		if (isMouseOverEntity() && Gdx.input.justTouched())
 		{
-			power += 0.1;
+			barrel.startDrag();
 		}
 	}
 
 	@Override
 	public void onActiveCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
 	public void onPassiveCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
 	public void onActiveMovementCollide(CollisionGeometryOwner passiveCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override
 	public void onPassiveMovementCollide(CollisionGeometryOwner activeCollider, CollisionGeometry myGeo, CollisionGeometry otherGeo) {
-		// TODO Auto-generated method stub
-
+		// 
 	}
 
 	@Override

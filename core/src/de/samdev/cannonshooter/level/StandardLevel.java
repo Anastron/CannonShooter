@@ -19,7 +19,11 @@ public class StandardLevel extends GameLayer {
 
 		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 
-		addEntity(new Cannon(10, 10));
+		addEntity(new Cannon(7, 13));
+
+		addEntity(new Cannon(14, 5));
+
+		addEntity(new Cannon(20, 13));
 	}
 	
 	@Override

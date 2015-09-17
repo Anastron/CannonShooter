@@ -13,11 +13,15 @@ import de.samdev.cannonshooter.ZLayers;
 
 public class CannonHearth extends Entity {
 	private static final Color COLOR_NEUTRAL = new Color(0.75f, 0.75f, 0.75f, 1f);
+	private static final float ROTATION_SPEED = 0.125f;
 	
 	private float rotation = 0;
 	
+	private Cannon cannon;
+	
 	public CannonHearth(Cannon owner) {
 		super(Textures.cannon_hearth[0], 2, 2);
+		cannon = owner;
 		
 		setPosition(owner.getPositionX(), owner.getPositionY());
 		
@@ -32,7 +36,7 @@ public class CannonHearth extends Entity {
 
 		sbatch.setColor(Color.RED);
 		
-		renderTexture(sbatch, Textures.cannon_hearth[(int)(rotation/4f) % 64], 0, 0);
+		renderTexture(sbatch, Textures.cannon_hearth[(int)(cannon.power * 63)], 0, 0);
 
 		sbatch.setColor(Color.WHITE);
 	}
@@ -73,12 +77,24 @@ public class CannonHearth extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		rotation = (rotation + 360 + delta / 8) % 360;
+		if (cannon.power < 1)
+		{
+			if (rotation != 0)
+			{
+				rotation = (rotation - delta * ROTATION_SPEED);
+				if (rotation < 0) rotation = 0;
+			}
+		}
+		else
+		{
+			rotation = (rotation - delta * ROTATION_SPEED);
+			if (rotation < 0) rotation += 45;
+		}
 	}
 	
 	@Override
 	public float getTextureRotation() {
-		return 0;//rotation;
+		return rotation;
 	}
 
 	@Override

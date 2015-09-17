@@ -1,6 +1,7 @@
 package de.samdev.cannonshooter.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.Entity;
@@ -12,7 +13,8 @@ import de.samdev.cannonshooter.ZLayers;
 import de.samdev.cannonshooter.util.MathUtils;
 
 public class CannonBarrel extends Entity {
-	private static final float CHARGE_DURATION = 0.0001f;
+	private static final float CHARGE_SPEED = 0.00066f;
+	private static final float UNCHARGE_SPEED = 0.001f;
 	private static final float ROTATION_SPEED = 0.18f;
 	
 	private boolean dragging = false;
@@ -20,6 +22,9 @@ public class CannonBarrel extends Entity {
 	private float rotation = 0;
 	private float targetRotation = 0;
 	private float charge = 0;
+	
+	private boolean loaded = false;
+	private CannonBullet bullet = null;
 
 	private Cannon cannon;
 	
@@ -31,11 +36,60 @@ public class CannonBarrel extends Entity {
 		
 		setZLayer(ZLayers.LAYER_CANNON_BARREL);
 	}
+	
+	@Override
+	public TextureRegion getTexture() {
+		return Textures.cannon_barrel[31 - Math.min(31, (int)(charge * 32))];
+	}
 
 	@Override
 	public void beforeUpdate(float delta) {
 		if (dragging) updateDragging();
 		
+		updateRotation(delta);
+		updateCharge(delta);
+		updateBullet();
+	}
+
+	private void updateBullet() {
+		if (loaded) {
+			Vector2 v = new Vector2(1f - 0.2f + (120*charge)/128f, 0);
+			
+			v.rotate(rotation);
+			
+			bullet.setPosition(cannon.getCenterX() + v.x - bullet.getWidth()/2, cannon.getCenterY() + v.y - bullet.getHeight()/2);
+		}
+	}
+
+	private void updateCharge(float delta) {
+		if (cannon.health == 0 || cannon.health == 1) {
+			if (loaded)
+			{
+				charge += CHARGE_SPEED * delta * cannon.team.speedMultiplier;
+				
+				if (charge > 1) {
+					charge = 0;	
+				
+					bullet.shoot(rotation);
+					bullet = null;
+					loaded = false;
+				}
+			} else {
+				charge = 0;
+				
+				bullet = new CannonBullet(cannon, cannon.team);
+				owner.addEntity(bullet);
+				loaded = true;
+			}
+		} else {
+			charge -= UNCHARGE_SPEED * delta;
+
+			if (charge < 0)
+				charge = 0;
+		}
+	}
+
+	private void updateRotation(float delta) {
 		if (rotation != targetRotation) {
 			float sign = MathUtils.moduloSignum(rotation, targetRotation, 360, 1);
 			
@@ -64,6 +118,13 @@ public class CannonBarrel extends Entity {
 
 	public void startDrag() {
 		dragging = true;
+	}
+
+	public void onTeamChanged() {
+		if (bullet != null) bullet.kill();
+		
+		bullet = null;
+		loaded = false;
 	}
 
 	@Override

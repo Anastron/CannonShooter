@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Team {
 
-	public static final Color COL_NEUTRAL = new Color(127/255f, 127/255f, 127/255f, 1.0f);
+	public static final Color COL_NEUTRAL = new Color(208/255f, 208/255f, 208/255f, 1.0f);
 	public static final Color COL_P1 = new Color(38/255f, 127/255f, 0/255f, 1.0f);
 	public static final Color COL_P2 = new Color(255/255f, 0/255f, 0/255f, 1.0f);
 	public static final Color COL_P3 = new Color(0/255f, 0/255f, 255/255f, 1.0f);

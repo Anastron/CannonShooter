@@ -38,20 +38,20 @@ public class CannonHearth extends Entity {
 
 		sbatch.setColor(cannon.team.teamColor);
 		
-		renderTexture(sbatch, Textures.cannon_hearth[(int)(cannon.power * 63)], 0, 0);
+		renderTexture(sbatch, Textures.cannon_hearth[(int)(cannon.health * 63)], 0, 0);
 
 		sbatch.setColor(Color.WHITE);
 	}
 
 	@Override
 	public void beforeUpdate(float delta) {
-		if (cannon.power < 1) {
-			if (rotation != 0 && cannon.power > 0) {
+		if (cannon.health < 1) {
+			if (rotation != 0 && cannon.health > 0) {
 				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
 				if (rotation < 0) rotation = 0;
 			}
 
-			if (cannon.power == 0){
+			if (cannon.health == 0){
 				if (! cannon.team.isNeutral) cannon.setTeam(level.team_neutral);
 
 				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);

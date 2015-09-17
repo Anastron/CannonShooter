@@ -17,7 +17,7 @@ public final class Textures {
 		texbackground = new Texture("level_background.png");
 		
 		cannon_body = new Texture("cannon_body.png");
-		cannon_barrel = TextureHelper.load1DArray("cannon_barrel.png", 512, 256, 16);
+		cannon_barrel = TextureHelper.load1DArray("cannon_barrel.png", 512, 256, 32);
 		cannon_hearth = TextureHelper.load1DArray("cannon_hearth.png", 256, 256, 64);
 		cannon_bullet = new Texture("cannon_bullet.png");
 	}

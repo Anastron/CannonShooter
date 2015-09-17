@@ -17,7 +17,7 @@ public class Cannon extends Entity {
 	private CannonBarrel barrel;
 	private CannonHearth hearth;
 	
-	public float power; // 1 = active | 0 = neutral
+	public float health; // 1 = active | 0 = neutral
 	
 	public Cannon(float x, float y, Team t) {
 		super(Textures.cannon_body, 2, 2);
@@ -26,7 +26,7 @@ public class Cannon extends Entity {
 		setZLayer(ZLayers.LAYER_CANNON_BODY);
 		
 		team = t;
-		power = (t.isNeutral) ? 0 : 1;
+		health = (t.isNeutral) ? 0 : 1;
 	}
 
 	@Override
@@ -44,12 +44,12 @@ public class Cannon extends Entity {
 		{
 			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN) && ! team.isNeutral)
 			{
-				power = Math.max(0, power - 0.01f);
+				health = Math.max(0, health - 0.01f);
 			}
 			
 			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP) && ! team.isNeutral)
 			{
-				power = Math.min(1, power + 0.01f);
+				health = Math.min(1, health + 0.01f);
 			}
 		}
 		
@@ -60,7 +60,11 @@ public class Cannon extends Entity {
 	}
 
 	public void setTeam(Team newteam) {
-		team = newteam;
+		if (team != newteam) {
+			team = newteam;
+			
+			barrel.onTeamChanged();
+		}
 	}
 
 	@Override

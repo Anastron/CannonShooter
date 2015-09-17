@@ -5,17 +5,17 @@ import com.badlogic.gdx.math.Vector2;
 import de.samdev.absgdx.framework.AgdxGame;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.absgdx.framework.map.TileMap;
+import de.samdev.absgdx.framework.map.background.RepeatingBackground;
 import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResolver;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.entities.Cannon;
-import de.samdev.cannonshooter.framework.TileAlignedBackground;
 
 public class StandardLevel extends GameLayer {
 
 	public StandardLevel(AgdxGame owner) {
 		super(owner, TileMap.createEmptyMap(32, 20));
 		
-		addBackground(new TileAlignedBackground(Textures.texbackground, 1));
+		addBackground(new RepeatingBackground(Textures.texbackground, 1/32f));
 
 		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 

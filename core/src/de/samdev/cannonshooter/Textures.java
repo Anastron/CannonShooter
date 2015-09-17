@@ -10,7 +10,7 @@ public final class Textures {
 	
 	public static Texture cannon_body;
 	public static TextureRegion[] cannon_barrel;
-	public static Texture cannon_hearth;
+	public static TextureRegion[] cannon_hearth;
 	public static Texture cannon_bullet;
 	
 	public static void init() {
@@ -18,5 +18,6 @@ public final class Textures {
 		
 		cannon_body = new Texture("cannon_body.png");
 		cannon_barrel = TextureHelper.load1DArray("cannon_barrel.png", 512, 256, 16);
+		cannon_hearth = TextureHelper.load1DArray("cannon_hearth.png", 256, 256, 64);
 	}
 }

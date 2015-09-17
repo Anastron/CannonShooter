@@ -5,7 +5,7 @@
 
 void Main()
 {
-	Image input = Image.FromFile(@"F:\Eigene Dateien\Dropbox\Programming\Java\workspace\Cannon Shooter\data\cannon_barrel_single.png");
+	Image input = Image.FromFile(@"F:\Eigene Dateien\Dropbox\Programming\Java\workspace\Cannon Shooter\data\cannon_barrel_base.png");
 	
 	Image output = new Bitmap(input.Width * 4, input.Height * 4, PixelFormat.Format32bppArgb);
 

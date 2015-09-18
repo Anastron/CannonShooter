@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
@@ -13,6 +12,8 @@ import de.samdev.cannonshooter.ZLayers;
 import de.samdev.cannonshooter.teams.Team;
 
 public class Cannon extends Entity {
+	private static final float HEALTH_REGEN_PER_HIT = 0.2f;
+
 	public Team team;
 	
 	private CannonBarrel barrel;
@@ -98,11 +99,13 @@ public class Cannon extends Entity {
 		return false;
 	}
 
-	public void onBulletHit(CannonBullet bullet, Team hit_team) {
+	public void onBulletHit(Team hit_team) {
+		if (hit_team.isNeutral) return;
+		
 		if (hit_team == team) {
-			health = Math.min(1, health + 0.01f);
+			health = Math.min(1, health + HEALTH_REGEN_PER_HIT);
 		} else {
-			health = Math.max(0, health - 0.01f);
+			health = Math.max(0, health - HEALTH_REGEN_PER_HIT);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package de.samdev.cannonshooter.tiles;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;

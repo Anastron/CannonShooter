@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
-import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
@@ -89,7 +88,7 @@ public class CannonBarrel extends Entity {
 				owner.addEntity(bullet);
 				loaded = true;
 			}
-		} else {
+		} else if (cannon.health <= 0.5) {
 			charge -= UNCHARGE_SPEED * delta;
 
 			if (charge < 0)

@@ -96,7 +96,7 @@ public class CannonBullet extends Entity {
 			CannonBullet colliderBullet = (CannonBullet)passiveCollider;
 			
 			if (colliderBullet.inBarrel) {
-				colliderBullet.cannon.onBulletHit(this, this.team);
+				colliderBullet.cannon.onBulletHit(this.team);
 				
 				alive = false;
 			} else {
@@ -113,7 +113,7 @@ public class CannonBullet extends Entity {
 		if (passiveCollider instanceof Cannon) {
 			Cannon cannon = (Cannon)passiveCollider;
 			
-			cannon.onBulletHit(this, this.team);
+			cannon.onBulletHit(this.team);
 
 			alive = false;
 		}

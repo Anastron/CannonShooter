@@ -1,11 +1,13 @@
 package de.samdev.cannonshooter.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionBox;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
@@ -16,6 +18,7 @@ public class CannonBarrel extends Entity {
 	private static final float CHARGE_SPEED = 0.00066f;
 	private static final float UNCHARGE_SPEED = 0.001f;
 	private static final float ROTATION_SPEED = 0.18f;
+	private static final float RECOIL_PERC = 0.035f;
 	
 	private boolean dragging = false;
 	
@@ -39,7 +42,11 @@ public class CannonBarrel extends Entity {
 	
 	@Override
 	public TextureRegion getTexture() {
-		return Textures.cannon_barrel[31 - Math.min(31, (int)(charge * 32))];
+		float realCharge = (charge) / (1 - RECOIL_PERC);
+		
+		if (charge > (1-RECOIL_PERC)) realCharge = (1 - charge) / RECOIL_PERC;
+		
+		return Textures.cannon_barrel[31 - Math.min(31, (int)(realCharge * 32))];
 	}
 
 	@Override
@@ -100,11 +107,6 @@ public class CannonBarrel extends Entity {
 			rotation = (rotation + 360) % 360;
 		}
 	}
-
-	@Override
-	public float getTextureRotation() {
-		return rotation;
-	}
 	
 	private void updateDragging() {
 		if (! Gdx.input.isTouched()) {
@@ -117,6 +119,11 @@ public class CannonBarrel extends Entity {
 		targetRotation = mouse.angle();
 	}
 
+	@Override
+	public float getTextureRotation() {
+		return rotation;
+	}
+	
 	public void startDrag() {
 		dragging = true;
 	}
@@ -127,10 +134,22 @@ public class CannonBarrel extends Entity {
 		bullet = null;
 		loaded = false;
 	}
+	
+	@Override
+	protected void renderTexture(SpriteBatch sbatch, TextureRegion tex, float offsetX, float offsetY) {
+		// Cause of the different origin
+		sbatch.draw(
+				tex, 
+				getPositionX() + offsetX, getPositionY() + offsetY, 
+				getWidth()/4f, getHeight()/2f, 
+				getWidth(), getHeight(), 
+				getTextureScaleX(), getTextureScaleY(), 
+				getTextureRotation());
+	}
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		// 
+		//
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 
 import de.samdev.absgdx.framework.entities.Entity;
 import de.samdev.absgdx.framework.entities.colliosiondetection.CollisionGeometryOwner;
+import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionCircle;
 import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.CollisionGeometry;
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
@@ -31,6 +32,10 @@ public class Cannon extends Entity {
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
+		addFullCollisionCircle();
+		
+		//#####################################################################
+		
 		barrel = new CannonBarrel(this);
 		hearth = new CannonHearth(this);
 		
@@ -40,21 +45,17 @@ public class Cannon extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		if (owner.owner.settings.debugEnabled.get())
-		{
-			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN) && ! team.isNeutral)
-			{
+		if (owner.owner.settings.debugEnabled.get()) {
+			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN) && ! team.isNeutral) {
 				health = Math.max(0, health - 0.01f);
 			}
 			
-			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP) && ! team.isNeutral)
-			{
+			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP) && ! team.isNeutral) {
 				health = Math.min(1, health + 0.01f);
 			}
 		}
 		
-		if (isMouseOverEntity() && Gdx.input.justTouched())
-		{
+		if (isMouseOverEntity() && Gdx.input.justTouched()) {
 			barrel.startDrag();
 		}
 	}
@@ -89,7 +90,7 @@ public class Cannon extends Entity {
 
 	@Override
 	public boolean canCollideWith(CollisionGeometryOwner other) {
-		return false;
+		return other instanceof CannonBullet;
 	}
 
 	@Override
@@ -97,4 +98,11 @@ public class Cannon extends Entity {
 		return false;
 	}
 
+	public void onBulletHit(CannonBullet bullet, Team hit_team) {
+		if (hit_team == team) {
+			health = Math.min(1, health + 0.01f);
+		} else {
+			health = Math.max(0, health - 0.01f);
+		}
+	}
 }

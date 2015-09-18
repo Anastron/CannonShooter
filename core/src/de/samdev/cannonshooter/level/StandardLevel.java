@@ -13,6 +13,7 @@ import de.samdev.absgdx.framework.map.mapscaleresolver.ShowCompleteMapScaleResol
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.entities.Cannon;
 import de.samdev.cannonshooter.teams.Team;
+import de.samdev.cannonshooter.tiles.StandardTile;
 
 public class StandardLevel extends GameLayer {
 
@@ -26,7 +27,7 @@ public class StandardLevel extends GameLayer {
 	private Team team_computer3 = new Team(12, Team.COL_P4, false, true, false, Team.MULTIPLIER_AI_D0);
 	
 	public StandardLevel(AgdxGame owner) {
-		super(owner, TileMap.createEmptyMap(32, 20));
+		super(owner, TileMap.createEmptyMapUnsafe(35, 20, StandardTile.class));
 		
 		initTeams();
 		
@@ -37,9 +38,9 @@ public class StandardLevel extends GameLayer {
 		addBackground(new RepeatingBackground(Textures.texbackground, 1/32f));
 		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 
-		addEntity(new Cannon(7, 13, team_player));
-		addEntity(new Cannon(14, 5, team_computer1));
-		addEntity(new Cannon(20, 13, team_neutral));
+		addEntity(new Cannon(3, 13, team_player));
+		addEntity(new Cannon(24, 3, team_computer1));
+		addEntity(new Cannon(30, 17, team_neutral));
 	}
 
 	private void initTeams() {

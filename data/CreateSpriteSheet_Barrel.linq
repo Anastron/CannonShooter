@@ -17,9 +17,9 @@ void Main()
 			{
 				int idx = y*4 + x;
 
-				g.DrawImageUnscaledAndClipped(input, new Rectangle(input.Width * x, input.Height * y, input.Width - idx * 4 - 22, input.Height));
+				g.DrawImageUnscaledAndClipped(input, new Rectangle(input.Width * x, input.Height * y, input.Width - idx * 8 - 58, input.Height));
 				
-				g.DrawImage(input, new Rectangle(input.Width * (x+1) - idx * 4 - 22, input.Height * y, 22, input.Height), new Rectangle(input.Width - 22, 0, 22, input.Height), GraphicsUnit.Pixel);
+				g.DrawImage(input, new Rectangle(input.Width * (x+1) - idx * 8 - 58, input.Height * y, 58, input.Height), new Rectangle(input.Width - 58, 0, 58, input.Height), GraphicsUnit.Pixel);
 			}
 		}
 	}

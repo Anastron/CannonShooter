@@ -20,7 +20,8 @@ public class CannonGame extends AgdxGame  {
 		settings.debugVisualMenu.set(false);
 		settings.debugMenuLayerTextInfos.set(true);
 		settings.debugGameLayerMenuTextInfos.set(false);
-		settings.debugEnabled.set(true);
+		
+		settings.debugEnabled.set(false);
 	}
 
 	@Override

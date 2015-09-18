@@ -12,18 +12,17 @@ import de.samdev.cannonshooter.ZLayers;
 import de.samdev.cannonshooter.teams.Team;
 
 public class CannonBullet extends Entity {
-	private final static float RESIZE_SPEED = 0.005f;
+	private final static float RESIZE_SPEED = 0.002f;
 	
 	private Cannon cannon;
 	private final Team team;
 	
 	private boolean inBarrel = true;
-	private float scale = 0.001f;
+	public float scale = 0.001f;
 	private boolean death = false;
-	private boolean birth = true;
 	
 	public CannonBullet(Cannon owner, Team t) {
-		super(Textures.cannon_bullet, 0.25f, 0.25f);
+		super(Textures.cannon_bullet, 0.5f, 0.5f);
 		this.cannon = owner;
 		this.team = t;
 		
@@ -36,14 +35,6 @@ public class CannonBullet extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		if (birth) {
-			scale += RESIZE_SPEED * delta;
-			if (scale >= 1) {
-				birth = false;
-				scale = 1;
-			}
-		}
-		
 		if (death) {
 			scale -= RESIZE_SPEED * delta;
 			if (scale <= 0) {

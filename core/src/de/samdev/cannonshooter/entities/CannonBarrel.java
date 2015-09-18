@@ -32,7 +32,7 @@ public class CannonBarrel extends Entity {
 		super(Textures.cannon_barrel[0], 4, 2);
 		cannon = owner;
 		
-		setPosition(owner.getPositionX() - 1, owner.getPositionY());
+		setPosition(owner.getPositionX(), owner.getPositionY());
 		
 		setZLayer(ZLayers.LAYER_CANNON_BARREL);
 	}
@@ -53,11 +53,12 @@ public class CannonBarrel extends Entity {
 
 	private void updateBullet() {
 		if (loaded) {
-			Vector2 v = new Vector2(1f - 0.2f + (120*charge)/128f, 0);
+			Vector2 v = new Vector2(1f - 0.5f + (1.9f) * charge, 0);
 			
 			v.rotate(rotation);
 			
 			bullet.setPosition(cannon.getCenterX() + v.x - bullet.getWidth()/2, cannon.getCenterY() + v.y - bullet.getHeight()/2);
+			bullet.scale = charge;
 		}
 	}
 

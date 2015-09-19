@@ -102,9 +102,9 @@ public class Cannon extends Entity {
 	public void onBulletHit(Team hit_team) {
 		if (hit_team.isNeutral) return;
 		
-		if (hit_team == team) {
+		if (hit_team == team && health < 1) {
 			health = Math.min(1, health + HEALTH_REGEN_PER_HIT);
-		} else {
+		} else if (hit_team != team) {
 			health = Math.max(0, health - HEALTH_REGEN_PER_HIT);
 		}
 	}

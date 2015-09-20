@@ -16,7 +16,7 @@ import de.samdev.cannonshooter.util.MathUtils;
 public class CannonBarrel extends Entity {
 	private static final float CHARGE_SPEED = 0.00066f;
 	private static final float UNCHARGE_SPEED = 0.001f;
-	private static final float ROTATION_SPEED = 0.18f;
+	private static final float ROTATION_SPEED = 0.175f;
 	private static final float RECOIL_PERC = 0.035f;
 	
 	private boolean dragging = false;

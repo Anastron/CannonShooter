@@ -9,15 +9,20 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
+import de.samdev.cannonshooter.level.StandardLevel;
 import de.samdev.cannonshooter.teams.Team;
 
 public class Cannon extends Entity {
 	private static final float HEALTH_REGEN_PER_HIT = 0.2f;
+	private static final float START_HEALTH_REGEN = 0.000015f;
+	private static final float END_HEALTH_REGEN = 0.000105f;
 
 	public Team team;
 	
 	private CannonBarrel barrel;
 	private CannonHearth hearth;
+
+	private StandardLevel level;
 	
 	public float health; // 1 = active | 0 = neutral
 	
@@ -33,6 +38,8 @@ public class Cannon extends Entity {
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
+		level = (StandardLevel) layer;
+		
 		addFullCollisionCircle();
 		
 		//#####################################################################
@@ -48,17 +55,27 @@ public class Cannon extends Entity {
 	public void beforeUpdate(float delta) {
 		if (owner.owner.settings.debugEnabled.get()) {
 			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.DOWN) && ! team.isNeutral) {
-				health = Math.max(0, health - 0.01f);
+				addHealth(-0.01f, level.team_neutral);
 			}
 			
 			if (isMouseOverEntity() && Gdx.input.isKeyPressed(Keys.UP) && ! team.isNeutral) {
-				health = Math.min(1, health + 0.01f);
+				addHealth(+0.01f, level.team_neutral);
 			}
 		}
+		
+		//#######################
 		
 		if (isMouseOverEntity() && Gdx.input.justTouched()) {
 			barrel.startDrag();
 		}
+		
+		if (! team.isNeutral && health < 1) {
+			addHealth(getHealthRegen(delta), team);
+		}
+	}
+	
+	public float getHealthRegen(float delta) {
+		return (START_HEALTH_REGEN + (END_HEALTH_REGEN - START_HEALTH_REGEN) * health) * delta; // exponential, bitches
 	}
 
 	public void setTeam(Team newteam) {
@@ -103,9 +120,19 @@ public class Cannon extends Entity {
 		if (hit_team.isNeutral) return;
 		
 		if (hit_team == team && health < 1) {
-			health = Math.min(1, health + HEALTH_REGEN_PER_HIT);
+			addHealth(HEALTH_REGEN_PER_HIT, hit_team);
 		} else if (hit_team != team) {
-			health = Math.max(0, health - HEALTH_REGEN_PER_HIT);
+			addHealth(-HEALTH_REGEN_PER_HIT, hit_team);
+		}
+	}
+
+	private void addHealth(float add, Team hit_team) {
+		health += add;
+		if (health <= 0) {
+			setTeam(hit_team);
+			health = -health;
+		} else if (health > 1) {
+			health = 1;
 		}
 	}
 }

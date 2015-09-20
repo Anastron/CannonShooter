@@ -19,7 +19,6 @@ public class CannonHearth extends Entity {
 	private float rotation = 0;
 	
 	private Cannon cannon;
-	private StandardLevel level;
 	
 	public CannonHearth(Cannon owner) {
 		super(Textures.cannon_hearth[0], 2, 2);
@@ -52,8 +51,6 @@ public class CannonHearth extends Entity {
 			}
 
 			if (cannon.health == 0){
-				if (! cannon.team.isNeutral) cannon.setTeam(level.team_neutral);
-
 				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
 				if (rotation < 0) rotation += 45;
 			}
@@ -70,7 +67,7 @@ public class CannonHearth extends Entity {
 
 	@Override
 	public void onLayerAdd(GameLayer layer) {
-		level = (StandardLevel) layer;
+		//
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import de.samdev.absgdx.framework.entities.colliosiondetection.geometries.Collis
 import de.samdev.absgdx.framework.layer.GameLayer;
 import de.samdev.cannonshooter.Textures;
 import de.samdev.cannonshooter.ZLayers;
-import de.samdev.cannonshooter.level.StandardLevel;
 
 public class CannonHearth extends Entity {
 	private static final Color COLOR_HEARTLESS = new Color(0.75f, 0.75f, 0.75f, 1f);

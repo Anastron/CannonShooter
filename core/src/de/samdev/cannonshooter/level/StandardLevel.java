@@ -39,6 +39,7 @@ public class StandardLevel extends GameLayer {
 		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 
 		addEntity(new Cannon(6, 25, team_player));
+		addEntity(new Cannon(36, 25, team_player));
 		addEntity(new Cannon(48, 6, team_computer1));
 		addEntity(new Cannon(60, 34, team_neutral));
 	}

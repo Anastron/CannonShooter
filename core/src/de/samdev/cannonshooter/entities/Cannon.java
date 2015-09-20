@@ -121,6 +121,8 @@ public class Cannon extends Entity {
 		
 		if (hit_team == team && health < 1) {
 			addHealth(HEALTH_REGEN_PER_HIT, hit_team);
+		} else if (hit_team == team && health == 1) {
+			barrel.addBooster();
 		} else if (hit_team != team) {
 			addHealth(-HEALTH_REGEN_PER_HIT, hit_team);
 		}

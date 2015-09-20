@@ -14,10 +14,12 @@ import de.samdev.cannonshooter.ZLayers;
 import de.samdev.cannonshooter.util.MathUtils;
 
 public class CannonBarrel extends Entity {
-	private static final float CHARGE_SPEED = 0.00066f;
-	private static final float UNCHARGE_SPEED = 0.001f;
-	private static final float ROTATION_SPEED = 0.175f;
-	private static final float RECOIL_PERC = 0.035f;
+	private static final float CHARGE_SPEED     = 0.00078f;
+	private static final float UNCHARGE_SPEED   = 0.001f;
+	private static final float ROTATION_SPEED   = 0.175f;
+	private static final float RECOIL_PERC      = 0.035f;
+	private static final int MAX_BOOSTER_COUNT  = 8;
+	private static final float BOOST_PERCENTAGE = 0.5f;
 	
 	private boolean dragging = false;
 	
@@ -30,9 +32,13 @@ public class CannonBarrel extends Entity {
 
 	private Cannon cannon;
 	
+	private float[] booster = new float[MAX_BOOSTER_COUNT];
+	
 	public CannonBarrel(Cannon owner) {
 		super(Textures.cannon_barrel[0], 4, 2);
 		cannon = owner;
+		
+		clearBooster();
 		
 		setPosition(owner.getPositionX(), owner.getPositionY());
 		
@@ -50,11 +56,11 @@ public class CannonBarrel extends Entity {
 
 	@Override
 	public void beforeUpdate(float delta) {
-		if (dragging) updateDragging();
-		
+		updateDragging();
 		updateRotation(delta);
 		updateCharge(delta);
 		updateBullet();
+		updateBooster(delta);
 	}
 
 	private void updateBullet() {
@@ -72,7 +78,7 @@ public class CannonBarrel extends Entity {
 		if (cannon.health == 0 || cannon.health == 1) {
 			if (loaded)
 			{
-				charge += CHARGE_SPEED * delta * cannon.team.speedMultiplier;
+				charge += CHARGE_SPEED * getBoost() * delta * cannon.team.speedMultiplier;
 				
 				if (charge > 1) {
 					charge = 0;	
@@ -108,6 +114,8 @@ public class CannonBarrel extends Entity {
 	}
 	
 	private void updateDragging() {
+		if (! dragging) return;
+		
 		if (! Gdx.input.isTouched()) {
 			dragging = false;
 			return;
@@ -116,6 +124,12 @@ public class CannonBarrel extends Entity {
 		Vector2 mouse = new Vector2(owner.getMouseOnMapPositionX() - cannon.getCenterX(), owner.getMouseOnMapPositionY() - cannon.getCenterY());
 		
 		targetRotation = mouse.angle();
+	}
+	
+	private void updateBooster(float delta) {
+		for (int i = 0; i < MAX_BOOSTER_COUNT; i++) {
+			if (booster[i] > 0) booster[i] -= delta;
+		}
 	}
 
 	@Override
@@ -132,6 +146,34 @@ public class CannonBarrel extends Entity {
 		
 		bullet = null;
 		loaded = false;
+		
+		clearBooster();
+	}
+	
+	public void clearBooster() {
+		for (int i = 0; i < MAX_BOOSTER_COUNT; i++) {
+			booster[i] = -1;
+		}
+	}
+	
+	public boolean addBooster() {
+		for (int i = 0; i < MAX_BOOSTER_COUNT; i++) {
+			if (booster[i] < 0) {
+				booster[i] = 1 / (CHARGE_SPEED * cannon.team.speedMultiplier); // So a single cannon can always hold up a 0.5x multiplier
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public float getBoost() {
+		float boost = 1f;
+		
+		for (int i = 0; i < MAX_BOOSTER_COUNT; i++) {
+			if (booster[i] > 0) boost += BOOST_PERCENTAGE;
+		}
+		return boost;
 	}
 	
 	@Override

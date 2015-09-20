@@ -27,7 +27,7 @@ public class StandardLevel extends GameLayer {
 	private Team team_computer3 = new Team(12, Team.COL_P4, false, true, false, Team.MULTIPLIER_AI_D0);
 	
 	public StandardLevel(AgdxGame owner) {
-		super(owner, TileMap.createEmptyMapUnsafe(35, 20, StandardTile.class));
+		super(owner, TileMap.createEmptyMapUnsafe(70, 40, StandardTile.class));
 		
 		initTeams();
 		
@@ -38,9 +38,9 @@ public class StandardLevel extends GameLayer {
 		addBackground(new RepeatingBackground(Textures.texbackground, 1/32f));
 		setMapScaleResolver(new ShowCompleteMapScaleResolver());
 
-		addEntity(new Cannon(3, 13, team_player));
-		addEntity(new Cannon(24, 3, team_computer1));
-		addEntity(new Cannon(30, 17, team_neutral));
+		addEntity(new Cannon(6, 25, team_player));
+		addEntity(new Cannon(48, 6, team_computer1));
+		addEntity(new Cannon(60, 34, team_neutral));
 	}
 
 	private void initTeams() {

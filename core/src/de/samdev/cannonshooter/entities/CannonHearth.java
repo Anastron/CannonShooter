@@ -21,7 +21,7 @@ public class CannonHearth extends Entity {
 	private Cannon cannon;
 	
 	public CannonHearth(Cannon owner) {
-		super(Textures.cannon_hearth[0], 2, 2);
+		super(Textures.cannon_hearth[0], 4, 4);
 		cannon = owner;
 		
 		setPosition(owner.getPositionX(), owner.getPositionY());

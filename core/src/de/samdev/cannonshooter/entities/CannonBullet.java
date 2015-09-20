@@ -14,7 +14,7 @@ public class CannonBullet extends Entity {
 	private final static float RESIZE_SPEED = 0.002f;
 	private final static float MAX_LIFETIME = 25 * 1000;
 
-	private final static float SHOOTING_SPEED = 0.002f;
+	private final static float SHOOTING_SPEED = 0.004f;
 	
 	public Cannon cannon;
 	private final Team team;
@@ -26,7 +26,7 @@ public class CannonBullet extends Entity {
 	public float lifetime = 0;
 	
 	public CannonBullet(Cannon owner, Team t) {
-		super(Textures.cannon_bullet, 0.5f, 0.5f);
+		super(Textures.cannon_bullet, 1f, 1f);
 		this.cannon = owner;
 		this.team = t;
 		

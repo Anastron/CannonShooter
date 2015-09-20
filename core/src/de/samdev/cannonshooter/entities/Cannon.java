@@ -27,7 +27,7 @@ public class Cannon extends Entity {
 	public float health; // 1 = active | 0 = neutral
 	
 	public Cannon(float x, float y, Team t) {
-		super(Textures.cannon_body, 2, 2);
+		super(Textures.cannon_body, 4, 4);
 		
 		setPosition(x, y);
 		setZLayer(ZLayers.LAYER_CANNON_BODY);

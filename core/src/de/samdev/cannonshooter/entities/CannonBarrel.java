@@ -35,7 +35,7 @@ public class CannonBarrel extends Entity {
 	private float[] booster = new float[MAX_BOOSTER_COUNT];
 	
 	public CannonBarrel(Cannon owner) {
-		super(Textures.cannon_barrel[0], 4, 2);
+		super(Textures.cannon_barrel[0], 8, 4);
 		cannon = owner;
 		
 		clearBooster();
@@ -65,7 +65,7 @@ public class CannonBarrel extends Entity {
 
 	private void updateBullet() {
 		if (loaded) {
-			Vector2 v = new Vector2(1f - 0.5f + (1.9f) * charge, 0);
+			Vector2 v = new Vector2(1.5f + 3f * charge, 0);
 			
 			v.rotate(rotation);
 			

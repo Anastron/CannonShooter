@@ -1,5 +1,7 @@
 package de.samdev.cannonshooter.entities;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
@@ -17,6 +19,8 @@ public class Cannon extends Entity {
 	private static final float START_HEALTH_REGEN = 0.000015f;
 	private static final float END_HEALTH_REGEN = 0.000105f;
 
+	public final Random Random = new Random();
+	
 	public Team team;
 	
 	private CannonBarrel barrel;

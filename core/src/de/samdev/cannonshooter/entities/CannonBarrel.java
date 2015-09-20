@@ -20,6 +20,7 @@ public class CannonBarrel extends Entity {
 	private static final float RECOIL_PERC      = 0.035f;
 	private static final int MAX_BOOSTER_COUNT  = 8;
 	private static final float BOOST_PERCENTAGE = 0.5f;
+	private static final float BULLET_ANGLE_VARIANCE = 6f;
 	
 	private boolean dragging = false;
 	
@@ -83,7 +84,8 @@ public class CannonBarrel extends Entity {
 				if (charge > 1) {
 					charge = 0;	
 				
-					bullet.shoot(rotation);
+					float shootingAngle = rotation + cannon.Random.nextFloat() * BULLET_ANGLE_VARIANCE - (BULLET_ANGLE_VARIANCE/2f);
+					bullet.shoot(shootingAngle);
 					bullet = null;
 					loaded = false;
 				}

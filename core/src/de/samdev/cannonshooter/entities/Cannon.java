@@ -141,4 +141,8 @@ public class Cannon extends Entity {
 			health = 1;
 		}
 	}
+	
+	public float getBoost() {
+		return barrel.getBoost();
+	}
 }

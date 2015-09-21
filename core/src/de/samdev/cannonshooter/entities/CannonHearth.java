@@ -14,6 +14,7 @@ import de.samdev.cannonshooter.ZLayers;
 public class CannonHearth extends Entity {
 	private static final Color COLOR_HEARTLESS = new Color(0.75f, 0.75f, 0.75f, 1f);
 	private static final float ROTATION_SPEED = 0.125f;
+	private static final float ROTATION_MODULO = 90;
 	
 	private float rotation = 0;
 	
@@ -45,17 +46,17 @@ public class CannonHearth extends Entity {
 	public void beforeUpdate(float delta) {
 		if (cannon.health < 1) {
 			if (rotation != 0 && cannon.health > 0) {
-				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
+				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier * cannon.getBoost());
 				if (rotation < 0) rotation = 0;
 			}
 
 			if (cannon.health == 0){
-				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
-				if (rotation < 0) rotation += 45;
+				rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier * cannon.getBoost());
+				if (rotation < 0) rotation += ROTATION_MODULO;
 			}
 		} else {
-			rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier);
-			if (rotation < 0) rotation += 45;
+			rotation = (rotation - delta * ROTATION_SPEED * cannon.team.speedMultiplier * cannon.getBoost());
+			if (rotation < 0) rotation += ROTATION_MODULO;
 		}
 	}
 	

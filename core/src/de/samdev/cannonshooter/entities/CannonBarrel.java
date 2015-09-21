@@ -77,8 +77,7 @@ public class CannonBarrel extends Entity {
 
 	private void updateCharge(float delta) {
 		if (cannon.health == 0 || cannon.health == 1) {
-			if (loaded)
-			{
+			if (loaded) {
 				charge += CHARGE_SPEED * getBoost() * delta * cannon.team.speedMultiplier;
 				
 				if (charge > 1) {
